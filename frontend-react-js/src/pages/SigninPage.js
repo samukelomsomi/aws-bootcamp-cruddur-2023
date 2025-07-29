@@ -1,6 +1,6 @@
 import './SigninPage.css';
 import React from "react";
-import {ReactComponent as Logo} from '../components/svg/logo.svg';
+import { ReactComponent as Logo } from '../components/svg/logo.svg';
 import { Link } from "react-router-dom";
 
 // [TODO] Authenication
@@ -8,39 +8,40 @@ import { signIn } from 'aws-amplify/auth';
 
 export default function SigninPage() {
 
-  const [username, setUsername] = React.useState('');
+  const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [errors, setErrors] = React.useState('');
 
   const onsubmit = async (event) => {
-  setErrors('')
-  event.preventDefault();
-  try {
-    console.log(username)
-    await signIn(username, password)
-      .then(user => {
-        localStorage.setItem("access_token", user.signInUserSession.accessToken.jwtToken)
-        window.location.href = "/"
-      })
-      .catch(err => { console.log('Error!', err) });
-  } catch (error) {
-    if (error.code == 'UserNotConfirmedException') {
-      window.location.href = "/confirm"
+    setErrors('')
+    event.preventDefault();
+    try {
+      console.log(email)
+      signIn(email, password)
+        .then(user => {
+          console.log('user', user)
+          localStorage.setItem("access_token", user.signInUserSession.accessToken.jwtToken)
+          window.location.href = "/"
+        })
+        .catch(err => { console.log('Error!', err) });
+    } catch (error) {
+      if (error.code == 'UserNotConfirmedException') {
+        window.location.href = "/confirm"
+      }
+      setErrors(error.message)
     }
-    setErrors(error.message)
+    return false
   }
-  return false
-}
 
   const email_onchange = (event) => {
-    setUsername(event.target.value);
+    setEmail(event.target.value);
   }
   const password_onchange = (event) => {
     setPassword(event.target.value);
   }
 
   let el_errors;
-  if (errors){
+  if (errors) {
     el_errors = <div className='errors'>{errors}</div>;
   }
 
@@ -50,7 +51,7 @@ export default function SigninPage() {
         <Logo className='logo' />
       </div>
       <div className='signin-wrapper'>
-        <form 
+        <form
           className='signin_form'
           onSubmit={onsubmit}
         >
@@ -60,8 +61,8 @@ export default function SigninPage() {
               <label>Email</label>
               <input
                 type="text"
-                value={username}
-                onChange={email_onchange} 
+                value={email}
+                onChange={email_onchange}
               />
             </div>
             <div className='field text_field password'>
@@ -69,7 +70,7 @@ export default function SigninPage() {
               <input
                 type="password"
                 value={password}
-                onChange={password_onchange} 
+                onChange={password_onchange}
               />
             </div>
           </div>
