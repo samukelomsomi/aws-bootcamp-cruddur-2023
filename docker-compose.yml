@@ -25,6 +25,8 @@ services:
       REACT_APP_AWS_COGNITO_REGION: "${AWS_DEFAULT_REGION}"
       REACT_APP_AWS_USER_POOLS_ID: "us-east-1_0EAJEMsGD"  
       REACT_APP_CLIENT_ID: "6u4q45pihjka11v2k5jmnld381"
+      SECRET_HASH: "odo5hek8fppniellug9e21tj3rqj9pv1l624j78qogi8tg5tp5p"
+      ENDPOINT_CF_URL: "https://d2k9irto6sios.cloudfront.net"
     build: ./frontend-react-js
     ports:
       - "3000:3000"

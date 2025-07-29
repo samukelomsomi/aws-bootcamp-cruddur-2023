@@ -17,7 +17,9 @@ export default function SigninPage() {
     event.preventDefault();
     try {
       console.log(email)
-      signIn(email, password)
+      const username = email;
+      console.log(username)
+      signIn({username, password})
         .then(user => {
           console.log('user', user)
           localStorage.setItem("access_token", user.signInUserSession.accessToken.jwtToken)
