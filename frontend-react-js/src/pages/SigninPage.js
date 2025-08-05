@@ -16,9 +16,7 @@ export default function SigninPage() {
     setErrors('')
     event.preventDefault();
     try {
-      console.log(email)
       const username = email;
-      console.log(username)
       signIn({username, password})
         .then(user => {
           console.log('user', user)
