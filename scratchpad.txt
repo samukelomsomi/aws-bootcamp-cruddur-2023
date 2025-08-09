@@ -21,3 +21,12 @@ aws rds create-db-instance \
 export CONNECTION_URL="postgresql://postgres:password@localhost:5432/cruddur"
 
 export PROD_URL="postgresql://root:huEE33z2Qvl383@cruddur-db-instance.c4tq0gegs45v.us-east-1.rds.amazonaws.com:5432/cruddur"
+
+export DB_SG_ID="sg-0ccdae891e9094a39"
+gp env DB_SG_ID="sg-0ccdae891e9094a39"
+export DB_SG_RULE_ID="sgr-0f8e45b7a83601277"
+gp env DB_SG_RULE_ID="sgr-0f8e45b7a83601277"
+
+aws ec2 modify-security-group-rules \
+    --group-id $DB_SG_ID \
+    --security-group-rules "SecurityGroupRuleId=$DB_SG_RULE_ID,SecurityGroupRule={Description=GITPOD,IpProtocol=tcp,FromPort=5432,ToPort=5432,CidrIpv4=$GITPOD_IP/32}"
