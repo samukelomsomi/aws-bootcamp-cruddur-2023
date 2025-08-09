@@ -1,7 +1,5 @@
 #! /usr/bin/bash
 
-#! /usr/bin/bash
-
 echo "db-seed-load"
 
 seed_path=$(realpath .)/db/seed.sql
