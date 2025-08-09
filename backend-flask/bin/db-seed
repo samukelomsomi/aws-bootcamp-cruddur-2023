@@ -8,7 +8,7 @@ echo $seed_path
 
 if [ "$1" = "prod"]; then
     echo "running in prod"
-    URL=$PROD_CONNECTION_URL
+    URL=$PROD_URL
 else
     URL=$CONNECTION_URL
 fi
