@@ -1,0 +1,18 @@
+#! /usr/bin/bash
+
+#! /usr/bin/bash
+
+echo "db-seed-load"
+
+seed_path=$(realpath .)/db/seed.sql
+
+echo $seed_path
+
+if [ "$1" = "prod"]; then
+    echo "running in prod"
+    URL=$PROD_CONNECTION_URL
+else
+    URL=$CONNECTION_URL
+fi
+
+psql $URL cruddur < $seed_path
