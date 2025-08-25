@@ -6,7 +6,30 @@ import sys
 from datetime import datetime, timedelta, timezone
 import uuid
 
+# unset endpoint url for use with production database
+if len(sys.argv) == 2:
+  if "prod" in sys.argv[1]:
+    attrs = {}
+ddb = boto3.client('dynamodb',**attrs)
 
+  def get_user_uuids():
+  sql = """
+    SELECT 
+      users.uuid,
+      users.display_name,
+      users.handle
+    FROM users
+    WHERE
+      users.handle IN(
+        %(my_handle)s,
+        %(other_handle)s
+        )
+  """
+
+users = db.query_array_json(sql,{
+    'my_handle':  'andrewbrown',
+    'other_handle': 'bayko'
+  })
 now = datetime.now(timezone.utc).astimezone()
 
 conversation = """
