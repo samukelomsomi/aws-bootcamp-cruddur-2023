@@ -6,14 +6,23 @@ import sys
 from datetime import datetime, timedelta, timezone
 import uuid
 
+current_path = os.path.dirname(os.path.abspath(__file__))
+parent_path = os.path.abspath(os.path.join(current_path, '..', '..'))
+sys.path.append(parent_path)
+from lib.db import db
+
+attrs = {
+  'endpoint_url': 'http://localhost:8000'
+}
+
 # unset endpoint url for use with production database
 if len(sys.argv) == 2:
   if "prod" in sys.argv[1]:
     attrs = {}
 ddb = boto3.client('dynamodb',**attrs)
 
-  def get_user_uuids():
-  sql = """
+#def get_user_uuids():
+sql = """
     SELECT 
       users.uuid,
       users.display_name,
@@ -27,10 +36,24 @@ ddb = boto3.client('dynamodb',**attrs)
   """
 
 users = db.query_array_json(sql,{
-    'my_handle':  'andrewbrown',
-    'other_handle': 'bayko'
-  })
+      'my_handle':  'andrewbrown',
+      'other_handle': 'bayko'
+    })
+
+my_user    = next((item for item in users if item["handle"] == 'andrewbrown'), None)
+other_user = next((item for item in users if item["handle"] == 'bayko'), None)
+results = {
+      'my_user': my_user,
+      'other_user': other_user
+}
+print('get_user_uuids')
+print(results)
+#return results
+
+
 now = datetime.now(timezone.utc).astimezone()
+
+#def create_message(client,message_group_uuid, created_at, message, my_user_uuid, my_user_display_name, my_user_handle):
 
 conversation = """
 Person 1: Have you ever watched Babylon 5? It's one of my favorite TV shows!
