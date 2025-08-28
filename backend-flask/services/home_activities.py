@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta, timezone
-from lib.db import pool, query_wrap_array
+from lib.db import db
 class HomeActivities:
   def run(logger):
     logger.info("HomeActivities")
     now = datetime.now(timezone.utc).astimezone()
     
-    sql = query_wrap_array("""
+    sql = db.query_wrap_array("""
     SELECT
         activities.uuid,
         users.display_name,
